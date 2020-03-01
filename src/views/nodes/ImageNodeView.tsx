@@ -1,16 +1,16 @@
 import { observer } from "mobx-react";
-import { VideoNodeStore } from "../../stores/VideoNodeStore";
-import "./NodeView.scss";
+import { ImageNodeStore } from "../../stores/ImageNodeStore";
 import { TopBar } from "./TopBar";
-import "./VideoNodeView.scss";
 import React = require("react");
+import "./NodeView.scss";
+import "./VideoNodeView.scss";
 
 interface IProps {
-    store: VideoNodeStore; 
+    store: ImageNodeStore;
 }
 
 @observer
-export class VideoNodeView extends React.Component<IProps> {
+export class ImageNodeView extends React.Component<IProps> {
 
     constructor(props) {
         super(props)
@@ -28,12 +28,12 @@ export class VideoNodeView extends React.Component<IProps> {
     render() {
         let store = this.props.store;
         return (
-            <div className="node text-node" style={{ transform: store.Transform, zIndex: store.zIndex, height: store.Height, width: store.Width }}onPointerDown={this.bringToFront} >
+            <div className="node text-node" style={{ transform: store.Transform, zIndex: store.zIndex, height: store.Height, width: store.Width}}onPointerDown={this.bringToFront} >
                 <TopBar store={store} />
                 <div className="scroll-box">
                     <div className="content">
                         <h3 className="title">{store.Title}</h3>
-                        <video src={store.Url} controls />
+                        <img src={store.Url} alt="Andy"/>
                     </div>
                 </div>
             </div>

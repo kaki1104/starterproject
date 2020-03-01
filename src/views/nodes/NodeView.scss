@@ -1,33 +1,96 @@
 .node {
     position: absolute;
-    background: #cdcdcd;
-
+    background: #D8C3A5;
     width: 300px;
     height: 300px;
     overflow: hidden;
+    resize: both;
+    z-index: 1000;
+    border: 3px solid #E98074;
+    border-top: none;
 
-        
     &.minimized {
-        width: 30px;
-        height: 30px;
+        width: 50px;
+        height: 50px;
     }
 
     .top {
-        background: #232323;
-        height: 20px;
+        background-color: #8D8E8A;
+        height: 30px;
         cursor: pointer;
-    }
+    }   
+        .linkButton {
+            width: 50px;
+            height: 30px;
+            color: #fcf8e8;
+            background-color:#E98074;
+            font-size: 15px;
+            font-style:bold;
+            font-family: Arial, sans-serif;
+            float : left;
+            border-color: none;
+            border:none;
+
+        }
+
+        .linkButton:hover{
+            background-color:#E85A4F;
+        }
+
+        .showLinkButton {
+            width: 90px;
+            height: 30px;
+            color: #fcf8e8;
+            background-color:#E98074;
+            border:none;
+            font-size: 15px;
+            font-style:bold;
+            font-family: Arial, sans-serif;
+            float : left;
+            outline:none;
+        }
+
+        .showLinkButton:hover{
+            background-color:#E85A4F;
+        }
+
+        .exitButton {
+            width: 25px;
+            height: 30px;
+            color: white;
+            background-color:#E85A4F;
+            font-size: 25px;
+            font-style:bold;
+            font-family: Arial, sans-serif;
+            float: right;
+            outline: none;
+            border: none;
+
+        }
 
     .content {
         padding: 20px 20px;
         height: auto;
         box-sizing: border-box;
-
+        border-color:black;
     }
 
     .scroll-box {
         overflow-y: scroll;
         height: calc(100% - 20px);
     }
+
+    .frame-area {
+        display: block;
+        width: 100%;  /* RESPONSIVE WIDTH */
+        max-width: 400px;
+        height: 300px;
+        overflow: auto;  /* EDIT TO hidden FOR NO SCROLLBAR */
+        border: #999999 1px solid;
+        margin: 0px;
+        padding: 0px;
+    }
+
+
 }
 

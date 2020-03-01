@@ -1,16 +1,17 @@
 import { observer } from "mobx-react";
-import { VideoNodeStore } from "../../stores/VideoNodeStore";
-import "./NodeView.scss";
+import { NodeCollectionStore } from "../../stores/NodeCollectionStore";
+import { CollectionNodeStore } from "../../stores/CollectionNodeStore";
+import { FreeFormCanvas } from "../freeformcanvas/FreeFormCanvas";
 import { TopBar } from "./TopBar";
-import "./VideoNodeView.scss";
 import React = require("react");
+import "./NodeView.scss";
 
-interface IProps {
-    store: VideoNodeStore; 
+export interface IProps {
+    store: CollectionNodeStore;
 }
 
 @observer
-export class VideoNodeView extends React.Component<IProps> {
+export class CollectionNodeView extends React.Component<IProps> {
 
     constructor(props) {
         super(props)
@@ -29,11 +30,10 @@ export class VideoNodeView extends React.Component<IProps> {
         let store = this.props.store;
         return (
             <div className="node text-node" style={{ transform: store.Transform, zIndex: store.zIndex, height: store.Height, width: store.Width }}onPointerDown={this.bringToFront} >
-                <TopBar store={store} />
+                <TopBar store={store}/>
                 <div className="scroll-box">
                     <div className="content">
-                        <h3 className="title">{store.Title}</h3>
-                        <video src={store.Url} controls />
+                        <FreeFormCanvas store={new NodeCollectionStore()} />                    
                     </div>
                 </div>
             </div>

@@ -1,16 +1,15 @@
 import { observer } from "mobx-react";
-import { VideoNodeStore } from "../../stores/VideoNodeStore";
-import "./NodeView.scss";
+import { WebNodeStore } from "../../stores/WebNodeStore";
 import { TopBar } from "./TopBar";
-import "./VideoNodeView.scss";
 import React = require("react");
+import "./NodeView.scss";
 
 interface IProps {
-    store: VideoNodeStore; 
+    store: WebNodeStore; 
 }
 
 @observer
-export class VideoNodeView extends React.Component<IProps> {
+export class WebNodeView extends React.Component<IProps> {
 
     constructor(props) {
         super(props)
@@ -33,7 +32,9 @@ export class VideoNodeView extends React.Component<IProps> {
                 <div className="scroll-box">
                     <div className="content">
                         <h3 className="title">{store.Title}</h3>
-                        <video src={store.Url} controls />
+                        <iframe name="Framename" src={store.Url} width="400" 
+                                height="200" scrolling="auto" className="frame-area" allowFullScreen>
+                        </iframe>
                     </div>
                 </div>
             </div>

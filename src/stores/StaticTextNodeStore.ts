@@ -1,5 +1,6 @@
 import { observable } from "mobx";
 import { NodeStore } from "./NodeStore";
+import ReactQuill, { Quill } from 'react-quill';
 
 export class StaticTextNodeStore extends NodeStore {
 
