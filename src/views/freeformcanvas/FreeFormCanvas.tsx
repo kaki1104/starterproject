@@ -9,6 +9,7 @@ import { PDFNodeStore } from '../../stores/PDFNodeStore';
 import { CollectionNodeStore } from "../../stores/CollectionNodeStore";
 import React = require("react");
 import "./FreeFormCanvas.scss";
+import { MAX_NODE_SCALE, MIN_NODE_SCALE, NODE_SCALE_ADJUST, NODE_SCALE_ADJUST_BUTTON, GRID_ROW, GRID_COLUMN, DEFAULT_NODE_POS } from "../../Constants";
 
 interface IProps {
     store: NodeCollectionStore
@@ -70,45 +71,45 @@ export class FreeFormCanvas extends React.Component<IProps> {
 
     onWheel = (e: React.WheelEvent): void => {
         e.stopPropagation();
-        if (e.deltaY < 0 && this.props.store.Scale >= 0.1){
-            this.props.store.Scale -= 0.01
-        }else if (e.deltaY > 0 && this.props.store.Scale <= 3){
-            this.props.store.Scale += 0.01
+        if (e.deltaY < 0 && this.props.store.Scale >= MIN_NODE_SCALE){
+            this.props.store.Scale -= NODE_SCALE_ADJUST;
+        }else if (e.deltaY > 0 && this.props.store.Scale <= MAX_NODE_SCALE){
+            this.props.store.Scale += NODE_SCALE_ADJUST;
         }
     }
 
     addTextNode (e: React.MouseEvent<HTMLInputElement>) {
-        nodes.push(new StaticTextNodeStore({ X: Math.random() * 300, Y: Math.random() * 300, Collection: this.props.store, Title: "Text Node Title", Text: "Some text :))" }));
+        nodes.push(new StaticTextNodeStore({ X: Math.random() * DEFAULT_NODE_POS, Y: Math.random() * DEFAULT_NODE_POS, Collection: this.props.store, Title: "Text Node Title", Text: "Some text :))" }));
         this.props.store.AddNodes(nodes);
         nodes = [];
     }
 
     addVideoNode (e: React.MouseEvent<HTMLInputElement>) {
-        nodes.push(new VideoNodeStore({ X: Math.random() * 300, Y: Math.random() * 300, Collection: this.props.store, Title: "Video Node Title", Url: "http://cs.brown.edu/people/peichman/downloads/cted.mp4" }));
+        nodes.push(new VideoNodeStore({ X: Math.random() * DEFAULT_NODE_POS, Y: Math.random() * DEFAULT_NODE_POS, Collection: this.props.store, Title: "Video Node Title", Url: "http://cs.brown.edu/people/peichman/downloads/cted.mp4" }));
         this.props.store.AddNodes(nodes);
         nodes = [];
     }
 
     addImageNode (e: React.MouseEvent<HTMLInputElement>) {
-        nodes.push(new ImageNodeStore({ X: Math.random() * 300, Y: Math.random() * 300, Collection: this.props.store, Title: "Image Node Title", Url: "https://cs.brown.edu/events/25th-anniversary/images/chairs/avd_2_now.jpg" }));        
+        nodes.push(new ImageNodeStore({ X: Math.random() * DEFAULT_NODE_POS, Y: Math.random() * DEFAULT_NODE_POS, Collection: this.props.store, Title: "ANDY!", Url: "https://cs.brown.edu/events/25th-anniversary/images/chairs/avd_2_now.jpg" }));        
         this.props.store.AddNodes(nodes);
         nodes = [];
     }
 
     addWebNode (e: React.MouseEvent<HTMLInputElement>) {
-        nodes.push(new WebNodeStore({ X: Math.random() * 300, Y: Math.random() * 300, Collection: this.props.store, Title: "Web Title", Url: "https://bbc.com" }));        
+        nodes.push(new WebNodeStore({ X: Math.random() * DEFAULT_NODE_POS, Y: Math.random() * DEFAULT_NODE_POS, Collection: this.props.store, Title: "Web Title", Url: "https://bbc.com" }));        
         this.props.store.AddNodes(nodes);
         nodes = [];
     }
 
     addPDFNode (e: React.MouseEvent<HTMLInputElement>) {
-        nodes.push(new PDFNodeStore({ X: Math.random() * 300, Y: Math.random() * 300, Collection: this.props.store, Title: "PDF Title", Url: "https://cs.brown.edu/courses/cs015/docs/CS15Missive2019.pdf" }));        
+        nodes.push(new PDFNodeStore({ X: Math.random() * DEFAULT_NODE_POS, Y: Math.random() * DEFAULT_NODE_POS, Collection: this.props.store, Title: "PDF Title", Url: "https://cs.brown.edu/courses/cs015/docs/CS15Missive2019.pdf" }));        
         this.props.store.AddNodes(nodes);
         nodes = [];
     }
 
     addCollectionNode (e: React.MouseEvent<HTMLInputElement>) {
-        nodes.push(new CollectionNodeStore({ X: Math.random() * 300, Y: Math.random() * 300, Collection: this.props.store}));        
+        nodes.push(new CollectionNodeStore({ X: Math.random() * DEFAULT_NODE_POS, Y: Math.random() * DEFAULT_NODE_POS, Collection: this.props.store}));        
         this.props.store.AddNodes(nodes);
         nodes = [];
     }
@@ -116,15 +117,15 @@ export class FreeFormCanvas extends React.Component<IProps> {
     gridView (e: React.MouseEvent<HTMLInputElement>) {
         if (document.getElementById("grid-free").innerHTML == "Grid"){
             var i = 0;
-            var x = window.innerWidth / 3
-            var y = window.innerHeight / 2
+            var x = window.innerWidth / GRID_ROW;
+            var y = window.innerHeight / GRID_COLUMN;
             this.props.store.Nodes.forEach(node => {
                 node.StoreX = node.X;
                 node.StoreY = node.Y;
                 node.StoreHeight = node.Height;
                 node.StoreWidth = node.Width;
-                node.X = (i%3) * x;
-                node.Y = (Math.floor(i/3)) * y;
+                node.X = (i%GRID_ROW) * x;
+                node.Y = (Math.floor(i/GRID_ROW)) * y;
                 node.Width = x;
                 node.Height = y;
                 i += 1;
@@ -151,14 +152,14 @@ export class FreeFormCanvas extends React.Component<IProps> {
     }
 
     zoomIn (e: React.MouseEvent<HTMLInputElement>) {
-        if (this.props.store.Scale <= 3){
-            this.props.store.Scale += 0.05
+        if (this.props.store.Scale <= MAX_NODE_SCALE){
+            this.props.store.Scale += NODE_SCALE_ADJUST_BUTTON;
         }
     }
 
     zoomOut (e: React.MouseEvent<HTMLInputElement>) {
-        if (this.props.store.Scale >= 0.1){
-            this.props.store.Scale -= 0.05
+        if (this.props.store.Scale >= MIN_NODE_SCALE){
+            this.props.store.Scale -= NODE_SCALE_ADJUST_BUTTON;
         }
     }
 

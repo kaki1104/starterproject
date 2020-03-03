@@ -1,5 +1,6 @@
 import { computed, observable, action } from "mobx";
 import { NodeStore } from "./NodeStore";
+import { SELECTED_NODE_ZINDEX, BACKGROUND_NODE_ZINDEX, LINKED_NODE_ZINDEX, MIN_LINK_POS, MAX_LINK_POS } from "../Constants";
 
 export class NodeCollectionStore extends NodeStore {
 
@@ -13,10 +14,10 @@ export class NodeCollectionStore extends NodeStore {
     @observable
     public Nodes: NodeStore[] = new Array<NodeStore>();
 
-    @observable
+    @observable //array that stores a pair of nodes
     public Link: NodeStore[] = new Array<NodeStore>();
 
-    @observable
+    @observable //array that stores pairs of nodes
     public LinkList: Array<NodeStore>[] = new Array<Array<NodeStore>>();
 
     @computed
@@ -30,15 +31,13 @@ export class NodeCollectionStore extends NodeStore {
             this.Link.push(store);
         }else if (this.Link.length == 1){
             this.Link.push(store);
+            //keeping track of linked nodes for individual nodes as well
             this.Link[0].LinkedNodes.push(this.Link[1])
             this.Link[0].Linkable = "LINK";
-            this.Link[1].LinkedNodes.push(this.Link[0])
-
-            this.LinkList.push(this.Link);
+            this.Link[1].LinkedNodes.push(this.Link[0]) 
+            this.LinkList.push(this.Link); //pushing the pair to the list of links
             this.Link = []
         }
-        console.log("The link list: "+ this.LinkList)
-        // console.log("First element of linked list: "+ this.LinkList[0])
     }
 
     @action
@@ -49,15 +48,16 @@ export class NodeCollectionStore extends NodeStore {
 
     @action
     public ShowLink(store: NodeStore): void {
+        //assign a random color to a pair so that you can see the link visually
         let randColor = this.getRandomColor();
         store.barColor = randColor
-        store.zIndex = 3000;
+        store.zIndex = LINKED_NODE_ZINDEX;
         store.LinkedNodes.forEach(node => {
-            let randnum = Math.floor(Math.random() * (100)) + 50;
+            let randnum = Math.floor(Math.random() * (MAX_LINK_POS-MIN_LINK_POS))+MIN_LINK_POS;
             node.X = store.X + randnum;
-            node.Y = store.Y + randnum;
+            node.Y = store.Y - randnum;
             node.barColor = randColor;
-            node.zIndex = 2500;
+            node.zIndex = SELECTED_NODE_ZINDEX -randnum;
         });
     }
 
@@ -68,6 +68,7 @@ export class NodeCollectionStore extends NodeStore {
         });
     }
 
+    //function that generates a random color
     public getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -77,10 +78,10 @@ export class NodeCollectionStore extends NodeStore {
         return color;
     }
 
+    //adding nodes to the collection
     @action
     public AddNodes(stores: NodeStore[]): void {
         stores.forEach(store => this.Nodes.push(store));
-        console.log(this.Nodes);
     }
 
     @action
@@ -97,6 +98,14 @@ export class NodeCollectionStore extends NodeStore {
               this.Nodes.splice(i, 1); 
             }
         }
+    }
+
+    @action
+    public BringToFront(store: NodeStore): void {
+        this.Nodes.forEach(node => {
+            node.zIndex = BACKGROUND_NODE_ZINDEX;
+        });
+        store.zIndex = SELECTED_NODE_ZINDEX;
     }
 
 

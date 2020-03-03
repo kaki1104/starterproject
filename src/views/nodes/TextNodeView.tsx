@@ -30,12 +30,9 @@ export class TextNodeView extends React.Component<IProps, IState> {
         this.setState({text: value })
     }
 
-    bringToFront = (e:React.PointerEvent): void => {
+    bringToFront = (e: React.PointerEvent): void => {
         e.stopPropagation();
-        this.props.store.Collection.Nodes.forEach(node => {
-            node.zIndex = 1000;
-        });
-        this.props.store.zIndex = 2000;
+        this.props.store.Collection.BringToFront(this.props.store);
     }
 
     render() {

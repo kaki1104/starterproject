@@ -18,12 +18,10 @@ export class CollectionNodeView extends React.Component<IProps> {
         this.bringToFront = this.bringToFront.bind(this)
     }
 
+    //when the collection is clicked, it is brought to the front
     bringToFront = (e: React.PointerEvent): void => {
         e.stopPropagation();
-        this.props.store.Collection.Nodes.forEach(node => {
-            node.zIndex = 1000;
-        });
-        this.props.store.zIndex = 2000;
+        this.props.store.Collection.BringToFront(this.props.store);
     }
 
     render() {

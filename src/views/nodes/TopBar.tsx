@@ -23,6 +23,8 @@ export class TopBar extends React.Component<IProps> {
 
     }
 
+    // when the pointer is down, it does 2 things: brings the node to front, 
+    // and activates the mover which allows the pointer to move around the node.
     onPointerDown = (e: React.PointerEvent): void => {
         e.stopPropagation();
         e.preventDefault();
@@ -57,6 +59,7 @@ export class TopBar extends React.Component<IProps> {
         this.props.store.Y += e.movementY;
     }
 
+    //to remove a node, it just splices it from the link collection in the nodeCollectionStore and each node that it is linked to
     removeNode (e: React.MouseEvent<HTMLInputElement>) {
         //getting rid of the node from all its linked node's linked node list
         this.props.store.LinkedNodes.forEach(node => {
@@ -66,9 +69,11 @@ export class TopBar extends React.Component<IProps> {
                 }
             }
         });
+
         this.props.store.Collection.RemoveNodes(this.props.store);
     }
 
+    //links the node. calls the CreateLink function in the NodeCollectionStore
     linkNode (e: React.MouseEvent<HTMLInputElement>) {
 
         if (this.props.store.Linkable == "LINK"){
@@ -77,12 +82,12 @@ export class TopBar extends React.Component<IProps> {
             this.props.store.Collection.UnLink();
         }
 
+        //allows users to unlink when it is not yet linked to a specific node
         if (this.props.store.Collection.Link.length == 1 && this.props.store.Collection.Link[0] == this.props.store){
             this.props.store.Linkable = "UNLINK";
         }
-
     }
-
+    
     showLink (e: React.MouseEvent<HTMLInputElement>) {
         if (this.props.store.LinkedNodes.length != 0) {
             this.props.store.Collection.ShowLink(this.props.store);

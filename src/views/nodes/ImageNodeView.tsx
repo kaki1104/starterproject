@@ -19,10 +19,7 @@ export class ImageNodeView extends React.Component<IProps> {
 
     bringToFront = (e: React.PointerEvent): void => {
         e.stopPropagation();
-        this.props.store.Collection.Nodes.forEach(node => {
-            node.zIndex = 1000;
-        });
-        this.props.store.zIndex = 2000;
+        this.props.store.Collection.BringToFront(this.props.store);
     }
 
     render() {

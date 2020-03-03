@@ -17,7 +17,6 @@ export class PDFNodeView extends React.Component<IProps> {
         this.bringToFront = this.bringToFront.bind(this)
     }
 
-
     state = {
         numPages: null,
         pageNumber: 1,
@@ -25,10 +24,7 @@ export class PDFNodeView extends React.Component<IProps> {
 
     bringToFront = (e: React.PointerEvent): void => {
         e.stopPropagation();
-        this.props.store.Collection.Nodes.forEach(node => {
-            node.zIndex = 1000;
-        });
-        this.props.store.zIndex = 2000;
+        this.props.store.Collection.BringToFront(this.props.store);
     }
 
     onDocumentLoadSuccess = ({ numPages }) => {

@@ -1,4 +1,3 @@
-import { observable } from "mobx";
 import { NodeStore } from "./NodeStore";
 
 export class CollectionNodeStore extends NodeStore {

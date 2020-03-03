@@ -39,7 +39,7 @@ export class NodeStore {
     @observable
     public Collection: NodeCollectionStore;
 
-    @observable
+    @observable // a list of all the nodes that this node is linked to
     public LinkedNodes: NodeStore[] = new Array<NodeStore>();
 
     @observable
